@@ -1,0 +1,40 @@
+{
+	"name": "flightmanagement",
+	"version": "1.0.0",
+	"description": "A backend system to manage flight logs for an airline's fleet",
+	"type": "module",
+	"scripts": {
+		"dev": "tsx watch src/server.ts",
+		"build": "tsc",
+		"start": "node dist/server.js",
+		"generate-data": "tsx scripts/generateData.ts",
+		"test": "vitest run",
+		"test:watch": "vitest"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/yanyuzhong/FlightManagement.git"
+	},
+	"keywords": [],
+	"author": "yanyuzhong",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/yanyuzhong/FlightManagement/issues"
+	},
+	"homepage": "https://github.com/yanyuzhong/FlightManagement#readme",
+	"dependencies": {
+		"dotenv": "^17.4.2",
+		"express": "^5.2.1",
+		"mongoose": "^9.9.4",
+		"zod": "^4.5.4"
+	},
+	"devDependencies": {
+		"@types/express": "^5.0.6",
+		"@types/node": "^26.4.1",
+		"@types/supertest": "^7.2.1",
+		"supertest": "^7.2.2",
+		"tsx": "^4.23.13",
+		"typescript": "^7.0.2",
+		"vitest": "^5.0.0"
+	}
+}
