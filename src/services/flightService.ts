@@ -130,3 +130,33 @@ export async function getFlightsByAircraft(params: GetFlightsByAircraftParams) {
 		})
 		.lean();
 }
+
+export async function getTotalFlightHours(params: GetTotalFlightHoursParams) {
+	const { startDate, endDate } = params;
+
+	const result = await FlightLog.aggregate([
+		{
+			$match: {
+				status: "landed",
+				departureTime: {
+					$gte: startDate,
+					$lte: endDate,
+				},
+			},
+		},
+		{
+			$group: {
+				_id: null,
+				totalMinutes: {
+					$sum: "$durationMinutes",
+				},
+			},
+		},
+	]);
+
+	const totalMinutes = result.length > 0 ? result[0].totalMinutes : 0;
+
+	return {
+		totalHours: totalMinutes / 60,
+	};
+}

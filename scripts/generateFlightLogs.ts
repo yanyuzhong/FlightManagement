@@ -48,7 +48,7 @@ function generateDocument(): FlightLog {
 	let departureAirport = faker.airline.airport();
 	let arrivalAirport = faker.airline.airport();
 
-	// Make sure departure and arrival airports are different
+	// make sure departure and arrival airports are different
 	while (arrivalAirport.iataCode === departureAirport.iataCode) {
 		arrivalAirport = faker.airline.airport();
 	}

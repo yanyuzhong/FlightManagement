@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 
 export function errorHandler(error: unknown, _req: Request, res: Response, _next: NextFunction) {
-	if (error instanceof Error && error.message === "Invalid cursor") {
+	if (error instanceof Error) {
 		res.status(400).json({
-			error: "Invalid cursor",
+			error: error.message,
 		});
 
 		return;

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { FlightStatus } from "../models/flightLog.js";
-import { getFlightLogs, getFlightsByAircraft } from "../services/flightService.js";
+import { getFlightLogs, getFlightsByAircraft, getTotalFlightHours } from "../services/flightService.js";
 
 export async function getFlightsController(req: Request, res: Response, next: NextFunction) {
 	try {
@@ -102,6 +102,51 @@ export async function getFlightsByAircraftController(req: Request, res: Response
 		res.status(200).json({
 			data: flights,
 		});
+	} catch (error) {
+		next(error);
+	}
+}
+
+export async function getTotalHoursController(req: Request, res: Response, next: NextFunction) {
+	try {
+		const startDateParam = req.query.startDate;
+
+		const endDateParam = req.query.endDate;
+
+		if (typeof startDateParam !== "string" || typeof endDateParam !== "string") {
+			res.status(400).json({
+				error: "startDate and endDate are required",
+			});
+
+			return;
+		}
+
+		const startDate = new Date(startDateParam);
+
+		const endDate = new Date(endDateParam);
+
+		if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime())) {
+			res.status(400).json({
+				error: "startDate and endDate must be valid dates",
+			});
+
+			return;
+		}
+
+		if (startDate > endDate) {
+			res.status(400).json({
+				error: "startDate must be before endDate",
+			});
+
+			return;
+		}
+
+		const result = await getTotalFlightHours({
+			startDate,
+			endDate,
+		});
+
+		res.status(200).json(result);
 	} catch (error) {
 		next(error);
 	}
