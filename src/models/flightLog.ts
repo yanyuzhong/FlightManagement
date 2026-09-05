@@ -1,5 +1,7 @@
 import { Schema, model } from "mongoose";
 
+export type FlightStatus = "scheduled" | "departed" | "landed" | "canceled";
+
 interface FlightLog {
 	flightId: string;
 	aircraftId: string;
@@ -7,7 +9,7 @@ interface FlightLog {
 	arrivalAirport: string;
 	departureTime: Date;
 	arrivalTime: Date;
-	status: "scheduled" | "departed" | "landed" | "canceled";
+	status: FlightStatus;
 	durationMinutes: number;
 }
 

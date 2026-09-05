@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 
-import { FlightLog } from "../models/flightLog.js";
+import { FlightLog, FlightStatus } from "../models/flightLog.js";
 
 import { FlightCursor, decodeCursor, encodeCursor } from "./flightCursor.js";
 
@@ -8,6 +8,16 @@ export interface GetFlightLogsParams {
 	limit: number;
 	cursor?: string;
 	sortOrder: "asc" | "desc";
+}
+
+export interface GetFlightsByAircraftParams {
+	aircraftId: string;
+	status?: FlightStatus;
+}
+
+export interface GetTotalFlightHoursParams {
+	startDate: Date;
+	endDate: Date;
 }
 
 export async function getFlightLogs(params: GetFlightLogsParams) {
@@ -97,4 +107,26 @@ export async function getFlightLogs(params: GetFlightLogsParams) {
 			nextCursor,
 		},
 	};
+}
+
+export async function getFlightsByAircraft(params: GetFlightsByAircraftParams) {
+	const { aircraftId, status } = params;
+
+	const filter: {
+		aircraftId: string;
+		status?: FlightStatus;
+	} = {
+		aircraftId,
+	};
+
+	if (status !== undefined) {
+		filter.status = status;
+	}
+
+	return FlightLog.find(filter)
+		.sort({
+			departureTime: -1,
+			_id: -1,
+		})
+		.lean();
 }

@@ -9,7 +9,7 @@ const COLL_NAME = process.env.COLL_NAME ?? "";
 const BATCH_SIZE = 1000;
 const TOTAL_DOCUMENTS = 50;
 const AIRCRAFT_COUNT = 50;
-const STATUSES = ["scheduled", "boarding", "departed", "arrived", "delayed", "cancelled"];
+const STATUSES = ["scheduled", "departed", "landed", "canceled"];
 const AIRCRAFT_IDS = Array.from({ length: AIRCRAFT_COUNT }, (_, index) => `R${index}`);
 
 interface FlightLog {
