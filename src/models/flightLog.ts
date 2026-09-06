@@ -18,8 +18,6 @@ const flightLogSchema = new Schema<FlightLog>(
 		flightId: {
 			type: String,
 			required: true,
-			unique: true,
-			index: true,
 		},
 		aircraftId: {
 			type: String,
