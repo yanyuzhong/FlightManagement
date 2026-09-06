@@ -2,21 +2,23 @@ import { Request, Response, NextFunction } from "express";
 import { FlightStatus } from "../models/flightLog.js";
 import { getFlightLogs, getFlightsByAircraft, getTotalFlightHours } from "../services/flightService.js";
 
+const DEFAULT_LIMIT = 20;
+const MIN_LIMIT = 1;
+const MAX_LIMIT = 100;
+
 export async function getFlightsController(req: Request, res: Response, next: NextFunction) {
 	try {
 		const limitParam = req.query.limit;
 		const cursorParam = req.query.cursor;
 		const sortOrderParam = req.query.sortby;
 
-		// Default limit
-		let limit = 20;
-
+		let limit = DEFAULT_LIMIT;
 		if (limitParam !== undefined) {
 			const parsedLimit = Number(limitParam);
 
-			if (!Number.isInteger(parsedLimit) || parsedLimit < 1 || parsedLimit > 100) {
+			if (!Number.isInteger(parsedLimit) || parsedLimit < MIN_LIMIT || parsedLimit > MAX_LIMIT) {
 				res.status(400).json({
-					error: "limit must be an integer between 1 and 100",
+					error: `limit must be an integer between ${MIN_LIMIT} and ${MAX_LIMIT}`,
 				});
 
 				return;
@@ -25,7 +27,7 @@ export async function getFlightsController(req: Request, res: Response, next: Ne
 			limit = parsedLimit;
 		}
 
-		// Validate cursor
+		// validate cursor
 		let cursor: string | undefined;
 
 		if (cursorParam !== undefined) {
@@ -40,9 +42,7 @@ export async function getFlightsController(req: Request, res: Response, next: Ne
 			cursor = cursorParam;
 		}
 
-		// Default sorting
 		let sortOrder: "asc" | "desc" = "desc";
-
 		if (sortOrderParam !== undefined) {
 			if (sortOrderParam !== "asc" && sortOrderParam !== "desc") {
 				res.status(400).json({

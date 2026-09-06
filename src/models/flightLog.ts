@@ -15,7 +15,6 @@ interface FlightLog {
 
 const flightLogSchema = new Schema<FlightLog>(
 	{
-		// flightId: String,
 		flightId: {
 			type: String,
 			required: true,
@@ -65,7 +64,7 @@ flightLogSchema.index({
 	_id: -1,
 });
 
-// API 2: aircraft + optional status + sorting
+// API 2: aircraft + optional status
 flightLogSchema.index({
 	aircraftId: 1,
 	status: 1,

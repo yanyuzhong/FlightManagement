@@ -94,7 +94,6 @@ export async function getFlightLogs(params: GetFlightLogsParams) {
 		// to the client
 		nextCursor = encodeCursor({
 			departureTime: lastFlight.departureTime.toISOString(),
-
 			id: lastFlight._id.toString(),
 		});
 	}
