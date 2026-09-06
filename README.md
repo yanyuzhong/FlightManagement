@@ -32,7 +32,7 @@ Create a cluster and database in [MongoDB Atlas](https://cloud.mongodb.com/). Wh
 
 Create `.env` from `.env.example`. And update the environment variables with the ones above.
 
-```
+```env
 MONGODB_URI=mongodb+srv://<userId>:<password>@<cluster>/<dbName>?appName=<clusterName>
 PORT=3000
 DB_NAME=flightManagementDB
