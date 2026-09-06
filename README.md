@@ -48,7 +48,7 @@ cd FlightManagement
 npm run generate-data
 ```
 
-### 4. Run the development server
+### 5. Run the development server
 
 ```
 npm run dev
@@ -58,7 +58,7 @@ The API is available at:
 
 `http://localhost:3000`
 
-### 5. Download the Postman Collection
+### 6. Download the Postman Collection
 
 Download the postman collection located at `demo\FlightManagement.postman_collection.json`. Import it to your local postman and start testing.
 
