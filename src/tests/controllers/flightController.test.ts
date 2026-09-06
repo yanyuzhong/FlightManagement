@@ -130,6 +130,29 @@ describe("flightController", () => {
 
 			expect(getFlightLogs).not.toHaveBeenCalled();
 		});
+
+		it("should pass service errors to the error middleware", async () => {
+			const error = new Error("Database error");
+
+			vi.mocked(getFlightLogs).mockRejectedValue(error);
+
+			const req = {
+				query: {},
+			} as any;
+
+			const res = {
+				status: vi.fn().mockReturnThis(),
+				json: vi.fn(),
+			} as any;
+
+			const next = vi.fn();
+
+			await getFlightsController(req, res, next);
+
+			expect(next).toHaveBeenCalledWith(error);
+			expect(res.status).not.toHaveBeenCalled();
+			expect(res.json).not.toHaveBeenCalled();
+		});
 	});
 
 	describe("getFlightsByAircraftController", () => {
@@ -149,11 +172,9 @@ describe("flightController", () => {
 			await getFlightsByAircraftController(req, res, next);
 
 			expect(res.status).toHaveBeenCalledWith(400);
-
 			expect(res.json).toHaveBeenCalledWith({
 				error: "status must be one of: scheduled, departed, landed, canceled",
 			});
-
 			expect(getFlightsByAircraft).not.toHaveBeenCalled();
 		});
 
@@ -178,12 +199,36 @@ describe("flightController", () => {
 				aircraftId: "R111",
 				status: "landed",
 			});
-
 			expect(res.status).toHaveBeenCalledWith(200);
-
 			expect(res.json).toHaveBeenCalledWith({
 				data: [],
 			});
+		});
+
+		it("should pass service errors to the error middleware", async () => {
+			const error = new Error("Database error");
+
+			vi.mocked(getFlightsByAircraft).mockRejectedValue(error);
+
+			const req = {
+				params: {
+					aircraftId: "N12345",
+				},
+				query: {},
+			} as any;
+
+			const res = {
+				status: vi.fn().mockReturnThis(),
+				json: vi.fn(),
+			} as any;
+
+			const next = vi.fn();
+
+			await getFlightsByAircraftController(req, res, next);
+
+			expect(next).toHaveBeenCalledWith(error);
+			expect(res.status).not.toHaveBeenCalled();
+			expect(res.json).not.toHaveBeenCalled();
 		});
 	});
 
@@ -199,11 +244,9 @@ describe("flightController", () => {
 			await getTotalHoursController(req, res, next);
 
 			expect(res.status).toHaveBeenCalledWith(400);
-
 			expect(res.json).toHaveBeenCalledWith({
 				error: "startDate and endDate are required",
 			});
-
 			expect(getTotalFlightHours).not.toHaveBeenCalled();
 		});
 
@@ -221,11 +264,9 @@ describe("flightController", () => {
 			await getTotalHoursController(req, res, next);
 
 			expect(res.status).toHaveBeenCalledWith(400);
-
 			expect(res.json).toHaveBeenCalledWith({
 				error: "startDate and endDate must be valid dates",
 			});
-
 			expect(getTotalFlightHours).not.toHaveBeenCalled();
 		});
 
@@ -243,11 +284,9 @@ describe("flightController", () => {
 			await getTotalHoursController(req, res, next);
 
 			expect(res.status).toHaveBeenCalledWith(400);
-
 			expect(res.json).toHaveBeenCalledWith({
 				error: "startDate must be before endDate",
 			});
-
 			expect(getTotalFlightHours).not.toHaveBeenCalled();
 		});
 
@@ -272,12 +311,36 @@ describe("flightController", () => {
 				startDate: new Date("2026-01-01T00:00:00.000Z"),
 				endDate: new Date("2026-02-01T00:00:00.000Z"),
 			});
-
 			expect(res.status).toHaveBeenCalledWith(200);
-
 			expect(res.json).toHaveBeenCalledWith({
 				totalHours: 4.5,
 			});
+		});
+
+		it("should pass service errors to the error middleware", async () => {
+			const error = new Error("Database error");
+
+			vi.mocked(getTotalFlightHours).mockRejectedValue(error);
+
+			const req = {
+				query: {
+					startDate: "2026-01-01",
+					endDate: "2026-01-31",
+				},
+			} as any;
+
+			const res = {
+				status: vi.fn().mockReturnThis(),
+				json: vi.fn(),
+			} as any;
+
+			const next = vi.fn();
+
+			await getTotalHoursController(req, res, next);
+
+			expect(next).toHaveBeenCalledWith(error);
+			expect(res.status).not.toHaveBeenCalled();
+			expect(res.json).not.toHaveBeenCalled();
 		});
 	});
 });
