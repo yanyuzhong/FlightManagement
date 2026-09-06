@@ -57,6 +57,8 @@ Download the postman collection located at `demo\FlightManagement.postman_collec
 
 ## Demo
 
+See demo video in `demo\FlightManagemet - Demo Video.mp4`
+
 ## Design Decisions
 
 ### Indexing Strategy
