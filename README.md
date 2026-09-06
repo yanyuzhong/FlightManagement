@@ -1,6 +1,13 @@
 # FlightManagement
 
 A backend system to manage flight logs for an airline's fleet.
+Supports the following APIs:
+
+```
+GET /api/v1/flights (sort by latest departureTime by default)
+GET /api/v1/flights/aircraft/:aircraftId
+GET /api/v1/flights/total-hours
+```
 
 ## Setup
 
